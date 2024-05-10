@@ -87,13 +87,13 @@ const Page = () => {
       <select           onChange={(e)=>{
             setselect(e.target.value)
           }} className="form-select mb-3" aria-label="Default select example" style={{textAlign:"center"}}>
-  <option defaultValue={"selected"} > المهنة </option>
+  <option> المهنة </option>
   <option defaultValue={1}>تنجيد</option>
   <option defaultValue={2}>خياطة</option>
   <option defaultValue={3}>تفصيل</option>
 </select>
 
-      <button type="submit" className="btn btn-primary">
+      <button disabled={!name || !addres || !select} type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
