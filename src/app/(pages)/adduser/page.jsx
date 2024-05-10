@@ -39,7 +39,7 @@ const Page = () => {
     console.log(dataFromBackend);
 
     if(response.ok){
-      console.log("yes")
+      alert(" تم اضافة عامل بنجاح ")
     }
 
   }
@@ -50,7 +50,7 @@ const Page = () => {
 
   return (
 <>
-  <h4> اضافة عميل جديد </h4>
+  <h4> اضافة العامل جديد </h4>
   <div className="container mt-3">
     <form onSubmit={setuser} style={{ direction: "rtl" }} >
       <div className="mb-3">
