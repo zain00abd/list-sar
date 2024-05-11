@@ -1,382 +1,190 @@
-"use client"
+"use client";
 
-
-import React, { useEffect } from "react";
-import "../../globals.css"
+import React, { useEffect, useState } from "react";
+import "../../globals.css";
 import Header from "app/components/header";
-
+import { notFound } from "next/navigation";
+import moment from "moment";
+import "moment/locale/ar";
 
 const Page = () => {
+  moment.locale("ar");
 
+  const arabicDayName = moment().format("dddd");
+
+  const [selectedDay, setSelectedDay] = useState(arabicDayName);
+
+
+  const [arrData, setstate] = useState([]);
+
+  const isDisabled = (day) => {
+    const currentDay = moment().format("dddd");
+    return moment(day, "dddd").isAfter(moment(currentDay, "dddd"));
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await fetch("http://localhost:3000/api/getdatauser");
+
+      if (!res.ok) {
+        notFound();
+      }
+
+      const data = await res.json();
+      setstate(data);
+
+    };
+
+    getData();
+  }, []);
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
 
   return (
-    
-      <div className="home_page">
-        <div
-          className="accordion accordion-flush p-3"
-          id="accordionFlushExample "
-        >
-          
-          <div
-            className="accordion-item rounded-2 mt-5 "
-            style={{ position: "relative" }}
-          >
-            <p
-              className="rounded-top text-white"
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "-25px",
-                zIndex: 8,
-                backgroundColor: "#5b5c5c",
-                width: "25%",
-                textAlign: "center",
-              }}
-            >
-              {" "}
-              تنجيد
-            </p>
+    <div className="home_page">
+      <div
+        className="accordion accordion-flush p-3"
+        id="accordionFlushExample "
+        style={{ width: "90%", margin: "auto" }}
+      >
+        {arrData.map((user, index) => {
+          return (
+            // eslint-disable-next-line react/jsx-key
             <div
-              className="accordion-header d-flex justify-content-evenly border-bottom border-primary "
-              style={{ direction: "rtl", fontWeight: 600 }}
+              className="accordion-item rounded-2 mt-5 "
+              style={{ position: "relative" }}
+              key={user._id}
             >
+              <p
+                className="rounded-top text-white"
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "-25px",
+                  zIndex: 8,
+                  backgroundColor: `${
+                    user.select === "تفصيل"
+                      ? "#681500"
+                      : user.select === "خياطة"
+                      ? "#002046"
+                      : "#5b5c5c"
+                  }`,
+                  width: "25%",
+                  textAlign: "center",
+                }}
+              >
+                {" "}
+                {user.select}
+              </p>
               <div
-                className="accordion-button collapsed text-center rounded-end"
-                
-
-                data-bs-toggle="collapse"
-                style={{ width: "60%" }}
-                data-bs-target="#flush-collapseOne1"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne1"
+                className="accordion-header d-flex justify-content-evenly border-bottom border-primary "
+                style={{ direction: "rtl", fontWeight: 600 }}
               >
                 <div
-                  style={{ fontSize: 18, width: "100%", textAlign: "start" }}
-                  className="col-4"
+                  className="accordion-button collapsed text-center rounded-end"
+                  data-bs-toggle="collapse"
+                  style={{ width: "60%" }}
+                  data-bs-target={`#flush-collapseOne${index}`}
+                  aria-expanded="false"
+                  aria-controls={`flush-collapseOne${index}`}
                 >
-                  {" "}
-                  عمر ابو خشبة{" "}
-                </div>
-              </div>
-              <div
-                className="d-flex justify-content-evenly"
-                style={{ width: "40%" }}
-              >
-                <p
-                  className="rounded-2"
-                  style={{
-                    marginTop: 12,
-                    padding: 5,
-                    backgroundColor: "rgba(145, 5, 0, 0.815)",
-                    width: "40%",
-                    textAlign: "center",
-                    color: "aliceblue",
-                    letterSpacing: "1.2px",
-                  }}
-                >
-                  35
-                </p>
-                <div className="vr" />
-                <button>
-                  <i
-                    className="fa-solid fa-circle-info fa-2xl"
-                    style={{ color: "#ffba42" }}
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              id="flush-collapseOne1"
-              className="rounded-bottom accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-              style={{ backgroundColor: "#acacac59" }}
-            >
-              <div className="accordion-body">
-                <div className="d-flex justify-content-between">
-                  <select
-                    className="form-select text-end text-white"
-                    aria-label="Default select example"
-                    style={{ width: "35%", backgroundColor: "rgb(0, 82, 107)" }}
+                  <div
+                    style={{ fontSize: 18, width: "100%", textAlign: "start" }}
+                    className="col-4"
                   >
-                    <option value={1}> الأحد </option>
-                    <option value={1}> الاثنين </option>
-                    <option value={1}> الثلاثاء </option>
-                    <option value={1}> الأربعاء </option>
-                    <option value={1}> الخميس </option>
-                    <option value={1}> الجمعة </option>
-                    <option value={1}> السبت </option>
-                  </select>
-                  <div className="input-group" style={{ width: "40%" }}>
-                    <span
-                      className="input-group-text"
-                      id="inputGroup-sizing-default"
-                    >
-                      12
-                    </span>
-                    <input
-                      type="number"
-                      className="form-control text-center"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
+                    {user.name}
                   </div>
                 </div>
-              </div>
-              <div className="w-100 d-flex justify-content-evenly">
-                <button
-                  className="text-white btn btn-success"
-                  style={{ padding: "0px 15px 0px 15px" }}
-                >
-                  {" "}
-                  اضافة{" "}
-                </button>
-              </div>
-            </div>
-          </div>
-
-
-          <div
-            className="accordion-item rounded-2 mt-5 "
-            style={{ position: "relative" }}
-          >
-            <p
-              className="rounded-top text-white"
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "-25px",
-                zIndex: 8,
-                backgroundColor: "#004b69",
-                width: "25%",
-                textAlign: "center",
-              }}
-            >
-              {" "}
-              خياطة
-            </p>
-            <div
-              className="accordion-header d-flex justify-content-evenly border-bottom border-primary "
-              style={{ direction: "rtl", fontWeight: 600 }}
-            >
-              <div
-                className="accordion-button collapsed text-center rounded-end"
-
-                data-bs-toggle="collapse"
-                style={{ width: "60%" }}
-                data-bs-target="#flush-collapseOne2"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne2"
-              >
                 <div
-                  style={{ fontSize: 18, width: "100%", textAlign: "start" }}
-                  className="col-4"
+                  className="d-flex justify-content-evenly"
+                  style={{ width: "40%" }}
                 >
-                  {" "}
-                  عبد الرزاق ابو خشبة{" "}
+                  <p
+                    className="rounded-2"
+                    style={{
+                      marginTop: 12,
+                      padding: 5,
+                      backgroundColor: "rgba(145, 5, 0, 0.815)",
+                      width: "40%",
+                      textAlign: "center",
+                      color: "aliceblue",
+                      letterSpacing: "1.2px",
+                    }}
+                  >
+                    35
+                  </p>
+                  <div className="vr" />
+                  <button>
+                    <i
+                      className="fa-solid fa-circle-info fa-2xl"
+                      style={{ color: "#ffba42" }}
+                    />
+                  </button>
                 </div>
               </div>
               <div
-                className="d-flex justify-content-evenly"
-                style={{ width: "40%" }}
+                id={`flush-collapseOne${index}`}
+                className="rounded-bottom accordion-collapse collapse"
+                data-bs-parent="#accordionFlushExample"
+                style={{ backgroundColor: "#c2c2c2" }}
               >
-                <p
-                  className="rounded-2"
-                  style={{
-                    marginTop: 12,
-                    padding: 5,
-                    backgroundColor: "rgba(145, 5, 0, 0.815)",
-                    width: "40%",
-                    textAlign: "center",
-                    color: "aliceblue",
-                    letterSpacing: "1.2px",
-                  }}
-                >
-                  46
-                </p>
-                <div className="vr" />
-                <button>
-                  <i
-                    className="fa-solid fa-circle-info fa-2xl"
-                    style={{ color: "#ffba42" }}
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              id="flush-collapseOne2"
-              className="rounded-bottom accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-              style={{ backgroundColor: "#acacac59" }}
-            >
-              <div className="accordion-body">
-                <div className="d-flex justify-content-between">
-                  <select
-                    className="form-select text-end text-white"
-                    aria-label="Default select example"
-                    style={{ width: "35%", backgroundColor: "rgb(0, 82, 107)" }}
-                  >
-                    <option value={1}> الأحد </option>
-                    <option value={1}> الاثنين </option>
-                    <option value={1}> الثلاثاء </option>
-                    <option value={1}> الأربعاء </option>
-                    <option value={1}> الخميس </option>
-                    <option value={1}> الجمعة </option>
-                    <option value={1}> السبت </option>
-                  </select>
-                  <div className="input-group" style={{ width: "40%" }}>
-                    <span
-                      className="input-group-text"
-                      id="inputGroup-sizing-default"
+                <div className="accordion-body">
+                  <div className="d-flex justify-content-between">
+
+                    <select
+                      className="form-select text-end text-white"
+                      aria-label="Default select example"
+                      style={{
+                        width: "35%",
+                        backgroundColor: "rgb(0, 82, 107)",
+                      }}
+                      value={selectedDay}
+                      onChange={(e) => setSelectedDay(e.target.value)}
                     >
-                      12
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
+                      <option value="الجمعة" disabled={isDisabled("الجمعة")}>الجمعة</option>
+                      <option value="السبت" disabled={isDisabled("السبت")}>السبت</option>
+                      <option value="الأحد" disabled={isDisabled("الأحد")}>الأحد</option>
+                      <option value="الاثنين" disabled={isDisabled("الإثنين")}>الاثنين</option>
+                      <option value="الثلاثاء" disabled={isDisabled("الثلاثاء")}>الثلاثاء</option>
+                      <option value="الأربعاء" disabled={isDisabled("الأربعاء")}>الأربعاء</option>
+                      <option value="الخميس" disabled={isDisabled("الخميس")}>الخميس</option>
+                    </select>
+                    
+                    <div className="input-group" style={{ width: "40%" }}>
+                      <span
+                        className="input-group-text"
+                        id="inputGroup-sizing-default"
+                      >
+                        12
+                      </span>
+                      <input
+                        type="number"
+                        className="form-control text-center"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-100 d-flex justify-content-evenly">
-                <button
-                  className="text-white btn btn-success"
-                  style={{ padding: "0px 15px 0px 15px" }}
-                >
-                  {" "}
-                  اضافة{" "}
-                </button>
-              </div>
-            </div>
-          </div>
-
-
-          <div
-            className="accordion-item rounded-2 mt-5 "
-            style={{ position: "relative" }}
-          >
-            <p
-              className="rounded-top text-white"
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "-25px",
-                zIndex: 8,
-                backgroundColor: "#690000",
-                width: "25%",
-                textAlign: "center",
-              }}
-            >
-              {" "}
-              تفصيل{" "}
-            </p>
-            <div
-              className="accordion-header d-flex justify-content-evenly border-bottom border-primary "
-              style={{ direction: "rtl", fontWeight: 600 }}
-            >
-              <div
-                className="accordion-button collapsed text-center rounded-end"
-
-                data-bs-toggle="collapse"
-                style={{ width: "60%" }}
-                data-bs-target="#flush-collapseOne"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne"
-              >
-                <div
-                  style={{ fontSize: 18, width: "100%", textAlign: "start" }}
-                  className="col-4"
-                >
-                  {" "}
-                  سعد ابو خشبة{" "}
-                </div>
-              </div>
-              <div
-                className="d-flex justify-content-evenly"
-                style={{ width: "40%" }}
-              >
-                <p
-                  className="rounded-2"
-                  style={{
-                    marginTop: 12,
-                    padding: 5,
-                    backgroundColor: "rgba(145, 5, 0, 0.815)",
-                    width: "40%",
-                    textAlign: "center",
-                    color: "aliceblue",
-                    letterSpacing: "1.2px",
-                  }}
-                >
-                  58
-                </p>
-                <div className="vr" />
-                <button>
-                  <i
-                    className="fa-solid fa-circle-info fa-2xl"
-                    style={{ color: "#ffba42" }}
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              id="flush-collapseOne"
-              className="rounded-bottom accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-              style={{ backgroundColor: "#acacac59" }}
-            >
-              <div className="accordion-body">
-                <div className="d-flex justify-content-between">
-                  <select
-                    className="form-select text-end text-white"
-                    aria-label="Default select example"
-                    style={{ width: "35%", backgroundColor: "rgb(0, 82, 107)" }}
+                <div className="w-100 d-flex justify-content-evenly">
+                  <button
+                    className="text-white btn btn-success"
+                    style={{ padding: "0px 15px 0px 15px" }}
                   >
-                    <option value={1}> الأحد </option>
-                    <option value={1}> الاثنين </option>
-                    <option value={1}> الثلاثاء </option>
-                    <option value={1}> الأربعاء </option>
-                    <option value={1}> الخميس </option>
-                    <option value={1}> الجمعة </option>
-                    <option value={1}> السبت </option>
-                  </select>
-                  <div className="input-group" style={{ width: "40%" }}>
-                    <span
-                      className="input-group-text"
-                      id="inputGroup-sizing-default"
-                    >
-                      12
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
-                  </div>
+                    {" "}
+                    اضافة{" "}
+                  </button>
                 </div>
               </div>
-              <div className="w-100 d-flex justify-content-evenly">
-                <button
-                  className="text-white btn btn-success"
-                  style={{ padding: "0px 15px 0px 15px" }}
-                >
-                  {" "}
-                  اضافة{" "}
-                </button>
-              </div>
             </div>
-          </div>
-
-
-        </div>
-        <Header active="home"/>
+          );
+        })}
       </div>
-    
+
+      <Header active="home" />
+    </div>
   );
 };
 

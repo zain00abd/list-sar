@@ -3,7 +3,6 @@ import React from 'react';
 import "../globals.css"
 
 const Header = (active) => {
-  console.log(active.active)
   
   return (
     <nav
