@@ -143,13 +143,13 @@ const Page = () => {
                       value={selectedDay}
                       onChange={(e) => setSelectedDay(e.target.value)}
                     >
-                      <option value="الجمعة" disabled={isDisabled("الجمعة")}>الجمعة</option>
                       <option value="السبت" disabled={isDisabled("السبت")}>السبت</option>
                       <option value="الأحد" disabled={isDisabled("الأحد")}>الأحد</option>
                       <option value="الاثنين" disabled={isDisabled("الإثنين")}>الاثنين</option>
                       <option value="الثلاثاء" disabled={isDisabled("الثلاثاء")}>الثلاثاء</option>
                       <option value="الأربعاء" disabled={isDisabled("الأربعاء")}>الأربعاء</option>
                       <option value="الخميس" disabled={isDisabled("الخميس")}>الخميس</option>
+                      <option value="الجمعة" disabled={isDisabled("الجمعة")}>الجمعة</option>
                     </select>
                     
                     <div className="input-group" style={{ width: "40%" }}>
