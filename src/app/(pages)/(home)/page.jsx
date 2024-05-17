@@ -32,7 +32,7 @@ const Page = () => {
         const data = await res.json();
         setstate(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error data:', error);
         notFound();
       }
     };
