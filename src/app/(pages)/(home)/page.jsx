@@ -24,7 +24,7 @@ const Page = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch("http://localhost:3000/api/getdatauser");
+      const res = await fetch("https://nextback-seven.vercel.app/");
 
       if (!res.ok) {
         notFound();
