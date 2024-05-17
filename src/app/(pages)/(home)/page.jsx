@@ -25,7 +25,7 @@ const Page = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await fetch("http://nextback-seven.vercel.app/");
+        const res = await fetch("https://nextback-seven.vercel.app/");
         if (!res.ok) {
           throw new Error('Failed to fetch data');
         }
