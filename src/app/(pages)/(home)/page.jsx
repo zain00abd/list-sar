@@ -24,19 +24,22 @@ const Page = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch("https://nextback-seven.vercel.app/");
-
-      if (!res.ok) {
+      try {
+        const res = await fetch("https://nextback-seven.vercel.app/");
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await res.json();
+        setstate(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
         notFound();
       }
-
-      const data = await res.json();
-      setstate(data);
-
     };
-
+  
     getData();
   }, []);
+  
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
