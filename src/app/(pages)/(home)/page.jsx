@@ -22,23 +22,7 @@ const Page = () => {
     return moment(day, "dddd").isAfter(moment(currentDay, "dddd"));
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch("https://nextback-seven.vercel.app/");
-        if (!res.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data = await res.json();
-        setstate(data);
-      } catch (error) {
-        console.error('Error data:', error);
-        notFound();
-      }
-    };
-  
-    getData();
-  }, []);
+
   
 
   useEffect(() => {
