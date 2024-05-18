@@ -48,16 +48,17 @@ const Page = () => {
   return (
     <div className="home_page">
       <div
-        className="accordion accordion-flush p-3"
+        className="accordion accordion-flush p-3 row g-0 justify-content-between"
         id="accordionFlushExample "
-        style={{ width: "90%", margin: "auto" }}
+        style={{ width: "90%", margin: "auto",  marginBottom: "100px" }}
       >
+
         {arrData.map((user, index) => {
           return (
             // eslint-disable-next-line react/jsx-key
             <div
-              className="accordion-item rounded-2 mt-5 "
-              style={{ position: "relative" }}
+              className="accordion-item rounded-2 mt-5 col-lg-5"
+              style={{ position: "relative"}}
               key={user._id}
             >
               <p
@@ -116,13 +117,13 @@ const Page = () => {
                       letterSpacing: "1.2px",
                     }}
                   >
-                    35
+                    {user.addres}
                   </p>
                   <div className="vr" />
                   <button>
                     <i
                       className="fa-solid fa-circle-info fa-2xl"
-                      style={{ color: "#ffba42" }}
+                      style={{ color: "#ffc422" }}
                     />
                   </button>
                 </div>
@@ -182,8 +183,10 @@ const Page = () => {
                 </div>
               </div>
             </div>
+
           );
         })}
+
       </div>
 
       <Header active="home" />

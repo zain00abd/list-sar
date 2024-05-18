@@ -13,6 +13,7 @@ const Header = (active) => {
       position: "fixed",
       width: "100%",
       transform: "rotateX(180deg)",
+      zIndex: "10"
     }}
     data-bs-theme="dark"
   >
